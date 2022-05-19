@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head> 
+	<div th:replace="admin/fragments/header :: html_head"/>        
+    <title>Add Employee</title>       
+    <script type="text/javascript" th:src="@{/js/bootstrap.bundle.min.js}"></script>
+    <!--PRIVATE LIBRARY-->
+    <link rel="stylesheet" th:href="@{//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/ln.css}" />
+    <script type="text/javascript" th:src="@{//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js}"></script>
+    <script type="text/javascript" th:src="@{//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js}"></script>
+    <!---->
+    <link rel="stylesheet" th:href="@{/css/t4.css}" />
+    <script type="text/javascript" th:src="@{/js/js4.js}"></script>
+</head>
+<body>   
+	<div th:replace="admin/fragments/header :: header"/> 
+	<!--Main Navigation-->
+    <!--Main layout-->
+    <main style="margin-top: 58px">
+    	<form th:action="@{/depart/save_emp}" th:object="${employee}" method="post" enctype="multipart/form-data" class="fluid-container register">
+                <div class="row">
+                    <div class="col-md-3 register-left">
+                        <h3>Chào Mừng</h3>
+                        <p>Bạn có thể điền thông tin nhân viên mới tại đây</p>
+                        <div id="wrapper">
+                            <!-- <img id="output_image"/><br> -->
+                            <img class="img-thumbnail" id="output_image" width="200px" height="200px">
+                            <label for="upload-input" class="upload-label ">Chọn Ảnh</label>
+                            <input name="image" class="form-control form-control-sm" type="file" id="upload-input" accept="image/*" onchange="preview_image(event)" >
+                        </div>
+                    </div>
+                    <div class="col-md-9 register-right">
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                <h3 class="register-heading">NHẬP THÔNG TIN NHÂN VIÊN MỚI</h3>
+                                <div class="row register-form">
+                                	
+                                    <div class="form-group">
+                                        <input type="hidden" name="id_department" class="form-control" th:value="${department.id}"/>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">   
+                                            <label>Họ</label>
+                                            <input type="text" class="form-control" maxlength="40" name="fname" placeholder="Nhập Họ *" th:field="*{firstname}"/>
+                                        	<span th:if="${#fields.hasErrors('firstname')}" th:errors="*{firstname}" class="error"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Giới Tính </label><br>
+                                            <select name="gender" class="form-control" th:field="*{gender}">
+                                                   <option th:value="0">Nam</option>
+                                                   <option th:value="1">Nữ</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Email </label>
+                                            <input type="email" class="form-control"  maxlength="100" name="email" placeholder="Nhập Email *" th:field="*{email}" />
+                                        	<span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Địa Chỉ </label>
+                                            <input type="text" class="form-control" maxlength="250" name="adress" placeholder="Nhập Địa Chỉ *" th:field="*{address}" />
+                                        	<span th:if="${#fields.hasErrors('address')}" th:errors="*{address}" class="error"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Lương </label>
+                                            <input type="number" class="form-control" name="wage"  placeholder="Nhập Lương *" th:field="*{wage}" />
+                                        	<span th:if="${#fields.hasErrors('wage')}" th:errors="*{wage}" class="error"></span>
+                                        </div>
+										<div class="form-group">
+                                            <label>Chức Vụ </label><br>
+                                            <select name="positions" class="form-control">
+                                                   <option th:each="p : ${positions}"
+					                                        th:value="${p.id}"
+					                                        th:text="${p.name}"
+					                                >
+                                            </select>
+                                            <span th:if="${errorPosition!=null}" style="color: red;" th:text="${errorPosition}">
+                                        </div>                                       
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Tên</label>
+                                            <input type="text" class="form-control"  maxlength="40" name="lname" placeholder="Nhập Tên *" th:field="*{lastname}" />
+                                        	<span th:if="${#fields.hasErrors('lastname')}" th:errors="*{lastname}" class="error"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Ngày Sinh</label>
+                                            <input type="date" class="form-control" name="DOB" placeholder="Nhập Ngày Sinh *" th:field="*{dob}" />
+                                        	<span th:if="${#fields.hasErrors('dob')}" th:errors="*{dob}" class="error"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Số Điện Thoại</label>
+                                            <input type="text" minlength="10" maxlength="10" name="phone" class="form-control" placeholder="Nhập Số Điện Thoại *" th:field="*{phoneNumber}" />
+                                        	<span th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}" class="error"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Ngày Bắt Đầu</label>
+                                            <input type="date" class="form-control" name="datestart"  placeholder="Nhập Ngày Bắt Đầu *" th:field="*{dateStart}" />
+                                        	<span th:if="${#fields.hasErrors('dateStart')}" th:errors="*{dateStart}" class="error"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Mô Tả Thêm </label>
+                                            <input type="text" class="form-control"  maxlength="250" name="description"  placeholder="Nhập Mô Tả Thêm *" th:field="*{description}"/>
+                                        </div>
+                                        <input type="submit" name="submit" value="Thêm mới" class="btn btn-primary text-light"/></a>
+                                        <a th:href="@{/depart}" class="btn btn-danger text-light">Quay lại</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form >
+    </main>   
+    <div th:replace="admin/fragments/footer :: footer"/>
+    <script type="text/javascript" th:src="@{/js/mdb.min.js}"></script>  
+    <!-- Custom scripts -->
+    <script type="text/javascript" th:src="@{/js/admin.js}"></script>
+</body>
+</html>

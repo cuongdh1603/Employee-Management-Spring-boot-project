@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+	<title>HRA PTIT - Sign In</title>
+	<!-- Google Fonts -->
+	<link th:href='@{https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700|Lato:400,100,300,700,900}' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" th:href="@{css/animate.css}">
+	<!-- Custom Stylesheet -->
+	<link rel="stylesheet" th:href="@{css/style.css}">
+	<script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js}"></script>
+	<script>
+		function isValidForm(){
+			const username = document.getElementById('username').value.trim()
+			const password = document.getElementById('password').value.trim()
+			const errorUsername = document.getElementById('errorUsername')
+			const errorPassword = document.getElementById('errorPassword')
+			if(username==''){
+				errorUsername.removeAttribute('hidden')
+				return false
+			}
+			if(password==''){
+				errorPassword.removeAttribute('hidden')
+				return false
+			}
+			return true
+		}
+	</script>
+</head>
+
+<body>
+	<div class="container">
+		<div class="top">
+			<h1 id="title" class="hidden"><span id="logo">HRA <span>PTIT</span></span></h1>
+		</div>
+		<div class="login-box animated fadeInUp">
+			<form th:action="@{/login_acc}" th:object="${account}" onsubmit="return isValidForm();" method="post">
+				<div class="box-header">
+					<h2>Log In</h2>
+				</div>
+				<label for="username">Username</label>
+				<br/>
+				<p id="errorUsername" hidden>Please fill out this field.</p>
+				<br/>
+				<input type="text" th:field="*{username}" id="username">
+				<br/>
+				<label for="password">Password</label>
+				<br/>
+				<input type="password" th:field="*{password}" id="password">
+				<br/>
+				<p id="errorPassword" hidden>Please fill out this field.</p>
+				<br/>
+				<button type="submit">Sign In</button>
+				<br/>
+				<a href="#"><p class="small">Forgot your password?</p></a>
+			</form>
+		</div>
+	</div>
+</body>
+<script>
+	$(document).ready(function () {
+    	$('#logo').addClass('animated fadeInDown');
+    	$("input:text:visible:first").focus();
+	});
+	$('#username').focus(function() {
+		$('label[for="username"]').addClass('selected');
+	});
+	$('#username').blur(function() {
+		$('label[for="username"]').removeClass('selected');
+	});
+	$('#password').focus(function() {
+		$('label[for="password"]').addClass('selected');
+	});
+	$('#password').blur(function() {
+		$('label[for="password"]').removeClass('selected');
+	});
+</script>
+</html>

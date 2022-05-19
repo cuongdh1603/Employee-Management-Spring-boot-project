@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<header>
+	<div th:fragment="html_head">
+		<meta charset="UTF-8" />
+	    <!-- Font Awesome -->
+	    <link rel="stylesheet" th:href="@{https://use.fontawesome.com/releases/v5.11.2/css/all.css}" />
+	    <!-- Google Fonts Roboto -->
+	    <link rel="stylesheet" th:href="@{https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap}" />
+	    <!-- MDB -->
+	    <link rel="stylesheet" th:href="@{/css/mdb.min.css}" />
+	    <!-- Custom styles -->
+	    <link rel="stylesheet" th:href="@{/css/admin.css}" />
+	    <!-- Data table-->
+	    <link rel="stylesheet" th:href="@{/css/bootstrap.css}" />
+	    <link rel="stylesheet" th:href="@{/css/dataTables.bootstrap4.min.css}" />
+	    <script type="text/javascript" th:src="@{/js/jquery-3.5.1.js}"></script>
+	    <script type="text/javascript" th:src="@{/js/jquery.dataTables.min.js}"></script>
+	    <script type="text/javascript" th:src="@{/js/dataTables.bootstrap4.min.js}"></script>	      
+	</div>
+</header>
+<body>
+<!--Main Navigation-->
+    <header>
+        <!-- Sidebar -->
+        <nav th:fragment="header" id="sidebarMenu" class="collapse d-lg-block sidebar collapse bg-white">
+            <div class="position-sticky">
+                <div class="list-group list-group-flush mx-2 mt-4">
+                        <a href="#" class="list-group-item list-group-item-action py-2 ripple" aria-current="true">
+                            <i class="fas fa-tachometer-alt fa-fw me-3"></i><span>Trang chủ</span>
+                        </a>
+                        <a th:href="@{/employ/employees}" class="list-group-item list-group-item-action py-2 ripple">
+                            <i class="fas fa-users fa-fw me-3"></i><span>Danh sách nhân sự</span>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action py-2 ripple"><i
+                            class="fas fa-calendar-times fa-fw me-3"></i><span>Lịch chấm công</span>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action py-2 ripple">
+                            <i class="fas fa-file-contract fa-fw me-3"></i><span>Xem hợp đồng</span>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action py-2 ripple">
+                            <i class="fas fa-border-all fa-fw me-3"></i><span>Khác</span>
+                        </a>
+                    </div>
+            </div>
+        </nav>
+        <!-- Sidebar -->
+        <!-- Navbar -->
+        <nav id="main-navbar" class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
+            <!-- Container wrapper -->
+            <div class="container-fluid">
+                <!-- Toggle button -->
+                <button class="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#sidebarMenu"
+                        aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <!-- Brand -->
+                <a class="navbar-brand" href="#">
+                    <img src="https://mdbootstrap.com/img/logo/mdb-transaprent-noshadows.png" height="30" alt="" loading="lazy" />
+                </a>
+                <!-- Search form -->
+                <!-- Right links -->
+                <ul class="navbar-nav ms-auto d-flex flex-row">
+                    <!-- Notification dropdown -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link me-3 me-lg-0 dropdown-toggle hidden-arrow" href="#" id="navbarDropdownMenuLink"
+                           role="button" data-mdb-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-bell"></i>
+                            <span class="badge rounded-pill badge-notification bg-danger">1</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
+                            <li><a class="dropdown-item" href="#">Some news</a></li>
+                            <li><a class="dropdown-item" href="#">Another news</a></li>
+                            <li>
+                                <a class="dropdown-item" href="#">Something else</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- Icon -->
+                    <li class="nav-item">
+                        <a class="nav-link me-3 me-lg-0" href="#">
+                            <i class="fas fa-fill-drip"></i>
+                        </a>
+                    </li>
+                    <!-- Icon -->
+                    <li class="nav-item me-3 me-lg-0">
+                        <a class="nav-link" href="#">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </li>
+                    <!-- Icon dropdown -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link me-3 me-lg-0 dropdown-toggle hidden-arrow" href="#" id="navbarDropdown" role="button"
+                           data-mdb-toggle="dropdown" aria-expanded="false">
+                            <i class="united kingdom flag m-0"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <li>
+                                <a class="dropdown-item" href="#">
+                                    <i class="united kingdom flag"></i>
+                                        English
+                                    <i class="fa fa-check text-success ms-2"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider" />
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#"><i class="vietnam flag"></i>Vietnam</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- Avatar -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle hidden-arrow d-flex align-items-center" href="#"
+                           id="navbarDropdownMenuLink" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
+                            <img src="https://mdbootstrap.com/img/Photos/Avatars/img (31).jpg" class="rounded-circle" height="30"
+                                 alt="" loading="lazy" />
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-portrait fa-fw me-3"></i><strong>Le Van Duc</strong></a></li>
+                            <li><a class="dropdown-item" th:href="@{/employ/update_password}"><i class="fas fa-edit fa-fw me-3"></i>Thay đổi mật khẩu</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt fa-fw me-3"></i>Đăng xuất</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <!-- Container wrapper -->
+        </nav>
+        <!-- Navbar -->
+    </header>
+    <!--Main Navigation-->
+    <!--Main layout-->
+</body>
+</html>
