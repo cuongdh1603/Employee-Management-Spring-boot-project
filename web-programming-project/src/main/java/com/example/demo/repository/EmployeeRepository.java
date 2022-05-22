@@ -32,4 +32,10 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer>{
 //	@Modifying
 //	@Query(value="update employee set employee_starting_wage = :wg where employee_id = :id",nativeQuery=true)
 //	void updateWage(@Param("id") Integer id,@Param("wg") long wage);
+	@Query(value="select * from  employee em\r\n"
+			+ "join account ac on\r\n"
+			+ "em.account_id = ac.account_id\r\n"
+			+ "where ac.account_username = :un",nativeQuery=true)
+	Employee findEmployeeByUsername(@Param("un") String username);
+	
 }

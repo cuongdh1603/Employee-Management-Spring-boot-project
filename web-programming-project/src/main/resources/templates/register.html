@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+    <link th:href="@{/css/bootstrap.css}" rel="stylesheet">
+</head>
+<body>
+<br><br>
+<div class = "container">
+    <div class = "row">
+        <div class = "col-md-6 col-md-offset-3">
+            <div th:if="${param.success}">
+                <div class="alert alert-info">Bạn đã đăng ký thành công</div>
+            </div>
+            <h2>REGISTER FORM</h2>
+            <form th:action="@{/signup-post}" method="POST">
+                <div class="form-group">
+                    <label>Username:</label>
+                    <input type="text" class="form-control" maxlength="45" aria-describedby="emailHelp" name="username" placeholder="Enter username">
+                    
+                </div>
+                <div class="form-group">
+                    <label>Password:</label>
+                    <input type="password" class="form-control" maxlength="20"  placeholder="Password" name="password">
+                    
+                </div>
+                <div>
+                    <label>Nhập lại mật khẩu</label>
+                    <input type="password" class="form-control" maxlength="45" name="re-password">
+                    
+                </div>
+                <div>
+                    <button type="submit" class="btn btn-primary">Đăng ký</button><br>
+                </div>
+            </form>
+            <div>
+                <span>Bạn đã tạo tài khoản? <a th:href="@{/login}">Đăng nhập</a></span>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

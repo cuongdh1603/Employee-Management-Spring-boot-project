@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,5 +65,8 @@ public class TimeKeepingService {
 		Long currentWage = employee.getWage();
 		wageService.updateWorkAndTotalWage(employee, diff);
 		
+	}
+	public List<TimeKeeping> getTimeKeepingsByMonthAndYear(Integer month,Integer year,Integer id){
+		return timeKeepingRepository.findByMonthAndYear(month, year, id);
 	}
 }

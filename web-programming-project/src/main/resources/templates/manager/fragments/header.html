@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <header>
 	<div th:fragment="html_head">
 		<meta charset="UTF-8" />
@@ -38,8 +39,8 @@
                     <a th:href="@{/manager/wage}" class="list-group-item list-group-item-action py-2 ripple">
                         <i class="fas fa-money-bill fa-fw me-3"></i><span>Sửa lương</span>
                     </a>
-                    <a href="#" class="list-group-item list-group-item-action py-2 ripple">
-                        <i class="fas fa-border-all fa-fw me-3"></i><span>Khác</span>
+                    <a th:href="@{/manager/report}" class="list-group-item list-group-item-action py-2 ripple">
+                        <i class="fas fa-border-all fa-fw me-3"></i><span>Thống kê</span>
                     </a>
                 </div>
             </div>
@@ -69,11 +70,8 @@
                             <span class="badge rounded-pill badge-notification bg-danger">1</span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
-                            <li><a class="dropdown-item" href="#">Some news</a></li>
-                            <li><a class="dropdown-item" href="#">Another news</a></li>
-                            <li>
-                                <a class="dropdown-item" href="#">Something else</a>
-                            </li>
+                            <li><a class="dropdown-item" href="#">Thông báo 1</a></li>
+                            <li><a class="dropdown-item" href="#">Thông báo 2</a></li>
                         </ul>
                     </li>
                     <!-- Icon -->
@@ -106,7 +104,7 @@
                                 <hr class="dropdown-divider" />
                             </li>
                             <li>
-                                <a class="dropdown-item" href="#"><i class="vietnam flag"></i>Vietnam</a>
+                                <a class="dropdown-item" href="#"><i class="vietnam flag"></i>Tiếng Việt</a>
                             </li>
                         </ul>
                     </li>
@@ -118,10 +116,10 @@
                                  alt="" loading="lazy" />
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
-                            <li><a class="dropdown-item" href="#"><i class="fas fa-portrait fa-fw me-3"></i><strong>Le Van Duc</strong></a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-portrait fa-fw me-3"></i><strong sec:authentication="name"></strong></a></li>
                             <li><a class="dropdown-item" href="#"><i class="fas fa-book-open fa-fw me-3"></i>Thông tin cá nhân</a></li>
                             <li><a class="dropdown-item" th:href="@{/manager/update_password}"><i class="fas fa-edit fa-fw me-3"></i>Thay đổi mật khẩu</a></li>
-                            <li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt fa-fw me-3"></i>Đăng xuất</a></li>
+                            <li><a class="dropdown-item" th:href="@{/logout}"><i class="fas fa-sign-out-alt fa-fw me-3"></i>Đăng xuất</a></li>
                         </ul>
                     </li>
                 </ul>

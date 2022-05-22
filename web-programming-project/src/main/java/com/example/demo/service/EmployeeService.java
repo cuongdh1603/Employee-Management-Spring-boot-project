@@ -75,4 +75,7 @@ public class EmployeeService {
 	public List<Employee> getListManager(){
 		return employeeRepository.findManagers();
 	}
+	public Employee getEmployeeByUsername(String username) {
+		return employeeRepository.findEmployeeByUsername(username);
+	}
 }

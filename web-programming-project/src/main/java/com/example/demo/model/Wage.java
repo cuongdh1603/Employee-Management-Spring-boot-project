@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -102,6 +103,11 @@ public class Wage {
 	}
 	public void setTotal(Long total) {
 		this.total = total;
+	}
+	public String getFormatTotalWage() {
+		NumberFormat myFormat = NumberFormat.getInstance();
+		myFormat.setGroupingUsed(true);
+		return myFormat.format(getTotal());
 	}
 	public Wage(Integer id, Integer month, Integer year, Integer work, Integer leave, Integer rest, Long bonus, Long basic,
 			Long total) {

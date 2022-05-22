@@ -1,14 +1,22 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-	<meta charset="utf-8">
-	<title>HRA PTIT - Sign In</title>
-	<!-- Google Fonts -->
-	<link th:href='@{https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700|Lato:400,100,300,700,900}' rel='stylesheet' type='text/css'>
-	<link rel="stylesheet" th:href="@{css/animate.css}">
-	<!-- Custom Stylesheet -->
-	<link rel="stylesheet" th:href="@{css/style.css}">
-	<script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js}"></script>
+	<meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+	<!-- Font Awesome -->
+    <link rel="stylesheet" th:href="@{https://use.fontawesome.com/releases/v5.11.2/css/all.css}" />
+    <!-- Google Fonts Roboto -->
+    <link rel="stylesheet" th:href="@{https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap}" />
+    <!-- MDB -->
+    <link rel="stylesheet" th:href="@{/css/mdb.min.css}" />
+    <!-- Custom styles -->
+    <link rel="stylesheet" th:href="@{/css/login.css}" />
+    <!-- Data table-->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}" />
+    <link rel="stylesheet" th:href="@{/css/dataTables.bootstrap4.min.css}" />
+    <script type="text/javascript" th:src="@{/js/jquery-3.5.1.js}"></script>
 	<script>
 		function isValidForm(){
 			const username = document.getElementById('username').value.trim()
@@ -27,52 +35,70 @@
 		}
 	</script>
 </head>
-
 <body>
-	<div class="container">
-		<div class="top">
-			<h1 id="title" class="hidden"><span id="logo">HRA <span>PTIT</span></span></h1>
-		</div>
-		<div class="login-box animated fadeInUp">
-			<form th:action="@{/login_acc}" th:object="${account}" onsubmit="return isValidForm();" method="post">
-				<div class="box-header">
-					<h2>Log In</h2>
-				</div>
-				<label for="username">Username</label>
-				<br/>
-				<p id="errorUsername" hidden>Please fill out this field.</p>
-				<br/>
-				<input type="text" th:field="*{username}" id="username">
-				<br/>
-				<label for="password">Password</label>
-				<br/>
-				<input type="password" th:field="*{password}" id="password">
-				<br/>
-				<p id="errorPassword" hidden>Please fill out this field.</p>
-				<br/>
-				<button type="submit">Sign In</button>
-				<br/>
-				<a href="#"><p class="small">Forgot your password?</p></a>
-			</form>
-		</div>
-	</div>
+	<section class="h-100 gradient-form" style="background-color: #eee;">
+        <div class="container py-5 h-100">
+          <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-xl-10">
+              <div class="card rounded-3 text-black">
+                <div class="row g-0">
+                  <div class="col-lg-6">
+                    <div class="card-body p-md-5 mx-md-4">
+                      <div class="text-center">
+                        <img th:src="@{/img/logo-mdb-jquery-small.webp}"
+                          style="width: 185px;" alt="logo">
+                        <h4 class="mt-2 mb-5 pb-1"></h4>
+                      </div>
+                      <form method="post">  
+                        <p>Xin mời điền thông tin tài khoản của bạn để đăng nhập</p>
+                        <div class="mb-4" th:if="${param.error}">
+                            <div class="alert alert-danger" role="alert">
+                                Tên hoặc mật khẩu không hợp lệ
+                            </div>
+                        </div>
+                        <div class="mb-3" th:if="${param.logout}">
+                            <div class="alert alert-success" role="alert">
+                                Đăng xuất thành công
+                            </div>
+                        </div> 
+                        <div class="form-outline mb-4">
+                          <input type="text" id="username" class="form-control" name="username"
+                            placeholder="" />
+                          <label class="form-label" for="username">Tên đăng nhập</label>
+                        </div>
+                        <div class="form-outline mb-4">
+                          <input type="password" id="password" class="form-control" name="password"/>
+                          <label class="form-label" for="password">Mật khẩu</label>
+                        </div>
+                        <div class="text-center pt-1 mb-3 pb-1">
+                          <button class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="submit">
+                              ĐĂNG NHẬP
+                          </button>
+                          <!-- <a class="text-muted" href="#!">Forgot password?</a> -->
+                        </div>
+                        <div class="d-flex align-items-center justify-content-center pb-4">
+                          <p class="mb-0 me-2">Bạn chưa có tài khoản?</p>
+                          <a type="button" class="btn btn-outline-danger" th:href="@{/signup}">ĐĂNG KÝ</a>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 d-flex align-items-center gradient-custom-2">
+                    <div class="text-white px-3 py-4 p-md-5 mx-md-4">
+                      <h4 class="mb-4">Chào mừng đến với công ty MDB</h4>
+                      <p class="small mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+                        exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </section>
+	<script type="text/javascript" th:src="@{/js/mdb.min.js}"></script>
+    <!-- Custom scripts -->
+    <script type="text/javascript" th:src="@{/js/admin.js}"></script>
 </body>
-<script>
-	$(document).ready(function () {
-    	$('#logo').addClass('animated fadeInDown');
-    	$("input:text:visible:first").focus();
-	});
-	$('#username').focus(function() {
-		$('label[for="username"]').addClass('selected');
-	});
-	$('#username').blur(function() {
-		$('label[for="username"]').removeClass('selected');
-	});
-	$('#password').focus(function() {
-		$('label[for="password"]').addClass('selected');
-	});
-	$('#password').blur(function() {
-		$('label[for="password"]').removeClass('selected');
-	});
-</script>
 </html>

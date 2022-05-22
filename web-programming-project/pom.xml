@@ -78,6 +78,19 @@
 		    <artifactId>hibernate-validator</artifactId>
 		    <version>6.0.16.Final</version>
 		</dependency>
+		<!-- SECURITY -->
+		
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-security</artifactId>
+		    <version>2.5.5</version>
+		</dependency>
+		 
+		<!-- SECURITY -->
+		<dependency>
+		    <groupId>org.thymeleaf.extras</groupId>
+		    <artifactId>thymeleaf-extras-springsecurity5</artifactId>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>

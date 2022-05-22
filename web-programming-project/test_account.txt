@@ -1,0 +1,17 @@
+--------------------------------CÁC TÀI KHOẢN ĐỂ TEST--------------------------------
+Test ADMIN : 
+docuong
+1234567
+
+
+Test MANAGER:
+vanduy
+7654321
+
+quanghuy
+1111111
+
+
+Test EMPLOYEE:
+duyenhung
+aaaaaaa

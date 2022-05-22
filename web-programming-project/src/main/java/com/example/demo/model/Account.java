@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 /*
@@ -60,6 +62,7 @@ public class Account {
 	}
 	public Account() {
 		super();
+		this.isActive = 1;
 	}
 	/*----------------------------------------RELATIONSHIP----------------------------------------*/
 	@OneToOne(mappedBy = "account")
@@ -70,5 +73,15 @@ public class Account {
 	public void setEmployee(Employee employee) {
 		this.employee = employee;
 	}
+	@ManyToOne()
+	@JoinColumn(name = "role_id")
+	private Role role;
+	public Role getRole() {
+		return role;
+	}
+	public void setRole(Role role) {
+		this.role = role;
+	}
+	
 	
 }

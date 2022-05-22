@@ -1,0 +1,107 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head> 
+	<div th:replace="employee/fragments/header :: html_head"/>        
+    <title>Material Design for Bootstrap</title>       
+    <script type="text/javascript" th:src="@{/js/bootstrap.bundle.min.js}"></script>
+    
+</head>
+<body>   
+	<div th:replace="employee/fragments/header :: header"/> 
+	<!--Main layout-->
+	<main style="margin-top: 58px">
+        <div class="container mb-5">
+            <br>
+            <h1 class="text-center">Báo cáo chấm công và lương tháng <span th:text="${#temporals.format(currentDate,'MM/yyyy')}"> </span></h1>
+            <form th:action="@{/employ/show_report}" method="post"> 
+                <div class="row">
+                    <div class="col-md-5 bg-light text-right"><label class="lead" for="bday-month">Nhập tháng lương muốn kiểm tra</label></div>
+                    <div class="col-md-3 bg-light text-center">                       
+                        <input type="text" class="form-control" name="datepicker" id="datepicker" />
+                    </div>
+                    <div class="col-md-4 bg-light">
+                        <input class="btn btn-primary" type="submit" value="TÌM KIẾM">
+                    </div>                    
+                </div>
+                <div class="row">
+                    <div class="col-md bg-light text-center text-danger" th:if="${errorTimeInput!=null}" th:text="${errorTimeInput}">
+                        
+                    </div>
+                </div>
+            </form>
+                 
+            <table id="example" class="table table-striped table-bordered mb-5" style="width:100%">
+                <thead>
+                    <tr>
+                        <th style="text-align:center">STT</th>
+                        <th style="text-align:center" >Ngày làm việc</th>
+                        <th style="text-align:center">Đi làm</th>
+                        <th style="text-align:center">Nghỉ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="tk, iterStat : ${timeKeepings}">  
+                        <td style="text-align:center" th:text="${iterStat.count}"></td>
+                        
+                        <td style="text-align:center" th:text="${#dates.format(tk.date,'dd/MM/yyyy')}"></td>
+                        
+                        <td style="text-align:center">
+                            <input class="form-check-input" type="checkbox" disabled name="exampleRadio1" th:checked="${tk.work==1}" >
+                        </td>
+                        <td style="text-align:center">
+                            <input class="form-check-input" type="checkbox" disabled name="exampleRadio1" th:checked="${tk.work==0}">
+                        </td>
+                    </tr >
+                </tbody>
+            </table>
+            <hr>
+            <div class="row">
+                <div class="col-4">
+                    <label>Số ngày làm việc:</label>
+                    <div class="alert alert-success" role="alert" th:text="${work}">
+                        
+                    </div>
+                </div>
+                <div class="col-4">
+                    <label>Số ngày nghỉ làm:</label>
+                    <div class="alert alert-success" role="alert" th:text="${rest}">
+                        
+                    </div>
+                </div>
+                <div class="col-4">
+                    <label>Tổng lương:</label>
+                    <div class="alert alert-success" role="alert" th:if="${totalWage != 'Không có dữ liệu'}" th:text="${totalWage + ' VNĐ'}">
+                    </div>
+                    <div class="alert alert-success" role="alert" th:if="${totalWage == 'Không có dữ liệu'}" th:text="${totalWage}">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+	<!--Main layout-->
+    <div th:replace="employee/fragments/footer :: footer"/>
+    <script type="text/javascript" th:src="@{/js/mdb.min.js}"></script>  
+    <!-- Custom scripts -->
+    <script type="text/javascript" th:src="@{/js/admin.js}"></script>
+    <link th:href="@{/css/datepicker.min.css}" rel="stylesheet">
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/bootstrap-datepicker.min.js}"></script>
+    <script>
+	    $(document).ready(function () {
+	        $('#example').DataTable({
+	            columnDefs: [
+	                { orderable: false, targets: 0 }, //disable ordering.
+	                { orderable: false, targets: 1 },
+	                { orderable: false, targets: 2 },
+	                { orderable: false, targets: 3 }
+	            ]
+	        })
+	    });
+	    $("#datepicker").datepicker( {
+            format: "mm-yyyy",
+            startView: "months", 
+            minViewMode: "months"
+        });
+    </script>
+</body>
+
+</html>

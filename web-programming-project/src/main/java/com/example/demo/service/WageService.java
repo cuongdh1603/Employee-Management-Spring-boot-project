@@ -39,6 +39,7 @@ public class WageService {
 		if(optional.isPresent()) return optional.get();
 		else return null;
 	}
+	
 	public void updateWorkAndTotalWage(Employee employee,Integer extraWork) {
 		Wage wage = getWageByTimeAndEmployeeId(employee);
 		if(wage != null) {

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.dto.TimeKeepingDto;
 import com.example.demo.model.Employee;
@@ -33,32 +35,39 @@ public class AdminController {
 	private WageService wageService;
 	@Autowired
 	private TimeKeepingService timeKeepingService;
+	@Secured("ROLE_AD")
 	@GetMapping()
 	public String index() {
 		return "admin/index";
 	}
-	
+	@Secured("ROLE_AD")
 	@GetMapping("/wage")
 	public String wage(Model model) {
 		List<Employee> managers = employeeService.getListManager();
 		model.addAttribute("employees", managers);
 		return "admin/update_wage";
 	}
+	@Secured("ROLE_AD")
 	@PostMapping("/save_wage/{id}")
 	public String saveWage(Model model,
 			@PathVariable("id") Integer id,
-			@RequestParam("newWage") String strNewWage) {
+			@RequestParam("newWage") String strNewWage,
+			RedirectAttributes ra//pass attribute to redirect
+			) {
 		Long newWage = extractNumberFromString(strNewWage);
 		Employee employee = employeeService.getEmployeeById(id);
 		boolean updateSuccess = employeeService.updateWage(employee, newWage);
 		if(updateSuccess) {
 			log.info("Successfully");
+			ra.addFlashAttribute("updateSuccess", "Cập nhật lương thành công");
 		}
 		else {
 			log.info("Failed");
 		}
+		
 		return "redirect:/admin/wage";
 	}
+	@Secured("ROLE_AD")
 	@GetMapping("/timekeeping")
 	public String timekeeping(Model model) {
 		Date date = new Date();
@@ -83,9 +92,11 @@ public class AdminController {
 		model.addAttribute("form", timeKeepingDto);
 		return "admin/timekeeping";
 	}
+	@Secured("ROLE_AD")
 	@PostMapping("/save_timekeeping")
 	public String saveTimekeeping(Model model,
-			@ModelAttribute("form") TimeKeepingDto timeKeepingDto) {
+			@ModelAttribute("form") TimeKeepingDto timeKeepingDto,
+			RedirectAttributes ra) {
 		for (TimeKeeping tk : timeKeepingDto.getTimeKeepings()) {
 			TimeKeeping timeKeeping = timeKeepingService.getById(tk.getId());
 			Integer previousWork = timeKeeping.getWork();
@@ -93,12 +104,19 @@ public class AdminController {
 			timeKeepingService.updateTimeKeeping(timeKeeping,previousWork);
 			
 		}
-		return "redirect:/admin";
+		ra.addFlashAttribute("updateSuccess", "Đã lưu thành công vào cơ sở dữ liệu");
+		return "redirect:/admin/timekeeping";
 	}
+	@Secured("ROLE_AD")
 	@GetMapping("/update_password")
 	public String updatePassword() {
 		log.info("Password update 12345");
 		return "admin/change_password";
+	}
+	@Secured("ROLE_AD")
+	@GetMapping("/accessDenied")
+	public String accessDenied() {
+		return "admin/accessDenied";
 	}
 	public Long extractNumberFromString(String s) {
 		Pattern pattern = Pattern.compile("[^0-9]");

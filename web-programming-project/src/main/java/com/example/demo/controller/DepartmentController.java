@@ -12,6 +12,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -34,6 +35,7 @@ import com.example.demo.service.PositionService;
 import lombok.extern.log4j.Log4j2;
 @Log4j2
 @Controller
+@Secured("ROLE_AD")
 @RequestMapping("/depart")
 public class DepartmentController {
 	@Autowired

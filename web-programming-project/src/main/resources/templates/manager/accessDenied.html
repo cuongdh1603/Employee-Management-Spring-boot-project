@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head> 
+	<div th:replace="manager/fragments/header :: html_head"/>        
+    <title>Material Design for Bootstrap</title>       
+</head>
+<body>   
+    <div th:replace="manager/fragments/header :: header"/>  
+    <main style="margin-top: 58px">
+        <div class="container mb-5">
+            <h1 class="text-center">Quản lí không có quyền truy nhập</h1>
+            
+        </div>
+    </main>
+    <div th:replace="manager/fragments/footer :: footer"/>
+    <script type="text/javascript" th:src="@{/js/mdb.min.js}"></script>  
+    <!-- Custom scripts -->
+    <script type="text/javascript" th:src="@{/js/admin.js}"></script>
+    </body>   
+</html >
