@@ -6,7 +6,7 @@ docuong
 
 Test MANAGER:
 vanduy
-7654321
+7654322
 
 quanghuy
 1111111
@@ -14,4 +14,4 @@ quanghuy
 
 Test EMPLOYEE:
 duyenhung
-aaaaaaa
+bbbbbbb

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.dto.PasswordDto;
 import com.example.demo.model.Account;
 import com.example.demo.model.Employee;
 import com.example.demo.model.Role;
@@ -54,5 +55,12 @@ public class UserService {
 	}
 	public Account findAccountByUsernameNotId(String username, Integer id) {
 		return accountRepository.findByUsernameNotId(username, id);
+	}
+	public void updatePassword(Account newAccount) {
+		Account account = findAccountByUsername(newAccount.getUsername());
+		if(account != null) {
+			account.setPassword(bCryptPasswordEncoder.encode(newAccount.getPassword()));
+			accountRepository.save(account);
+		}
 	}
 }

@@ -8,23 +8,33 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.example.demo.dto.PasswordDto;
+import com.example.demo.model.Account;
 import com.example.demo.model.Employee;
 import com.example.demo.model.TimeKeeping;
 import com.example.demo.model.Wage;
 import com.example.demo.service.EmployeeService;
 import com.example.demo.service.TimeKeepingService;
+import com.example.demo.service.UserService;
 
 import lombok.extern.log4j.Log4j2;
 @Log4j2
@@ -36,6 +46,10 @@ public class EmployeeController {
 	private EmployeeService employeeService;
 	@Autowired
 	private TimeKeepingService timeKeepingService;
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	@Autowired
+	private UserService userService;
 	@GetMapping()
 	public String index() {
 		return "employee/index";
@@ -122,9 +136,42 @@ public class EmployeeController {
 		return "employee/report";
 	}
 	@GetMapping("/update_password")
-	public String updatePassword() {
+	public String updatePassword(Model model) {
 		log.info("Password update employee");
+//		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//		UserDetails userDetails = (UserDetails) auth.getPrincipal();
+		PasswordDto passwordDto = new PasswordDto();
+		model.addAttribute("passDto", passwordDto);
 		return "employee/change_password";
+	}
+	@PostMapping("/save_password")
+	public String savePassword(Model model,
+			@Valid @ModelAttribute("passDto") PasswordDto passwordDto,
+			BindingResult result,
+			@RequestParam("rePassword") String rePassword,
+			RedirectAttributes ra) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
+		if(result.hasErrors()) {
+			model.addAttribute("passDto", passwordDto);
+			return "employee/change_password";
+		}
+		if(!passwordDto.getNewPassword().equals(rePassword)) {
+			model.addAttribute("passDto", passwordDto);
+			model.addAttribute("errorRePassword", "Mật khẩu mới không khớp");
+			return "employee/change_password";
+		}
+		if(!bCryptPasswordEncoder.matches(passwordDto.getPassword(),userService.findAccountByUsername(userDetails.getUsername()).getPassword())) {
+			result.addError(new FieldError("passDto","password","Mật khẩu sai"));
+            return "employee/change_password";
+		}
+		Account account = new Account();
+		account.setUsername(userDetails.getUsername());
+		account.setPassword(passwordDto.getNewPassword());
+		userService.updatePassword(account);
+		ra.addFlashAttribute("updateSuccess", "Thay đổi mật khẩu thành công");
+		log.info("Password: " + passwordDto.getNewPassword());
+		return "redirect:/employ/update_password";
 	}
 	@GetMapping("/infor")
 	public String personalInfor(Model model) {
