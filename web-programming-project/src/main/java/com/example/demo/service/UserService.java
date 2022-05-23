@@ -1,14 +1,17 @@
 package com.example.demo.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.model.Account;
+import com.example.demo.model.Employee;
 import com.example.demo.model.Role;
 import com.example.demo.repository.AccountRepository;
+import com.example.demo.repository.EmployeeRepository;
 import com.example.demo.repository.RoleRepository;
 
 @Service
@@ -43,5 +46,13 @@ public class UserService {
 	}
 	public List<Role> getRoleOfAccountByIdAccount(Integer accountId) {
 		return roleRepository.getRoleOfAccountByIdAccount(accountId);
+	}
+	public Account getById(Integer id) {
+		Optional<Account> optional = accountRepository.findById(id);
+		if(optional.isPresent()) return optional.get();
+		else return null;
+	}
+	public Account findAccountByUsernameNotId(String username, Integer id) {
+		return accountRepository.findByUsernameNotId(username, id);
 	}
 }

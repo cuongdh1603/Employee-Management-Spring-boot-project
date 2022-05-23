@@ -84,7 +84,8 @@
                                 </button>
                             </td>
                             <td>
-                                <button type="button" class="btn btn-danger"><i class=" fas fa-address-card"></i></button>
+                                <!--<a th:if="${em.account}" type="button" class="btn btn-danger"><i class=" fas fa-address-card"></i></a>-->
+                                <a type="button" class="btn btn-success" th:href="@{/depart/account/{id}(id=${em.id})}"><i class=" fas fa-address-card"></i></a>
                             </td>
                         </tr>
                     </tbody>

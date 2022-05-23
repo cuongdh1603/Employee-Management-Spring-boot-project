@@ -36,7 +36,7 @@
                         <a th:href="@{/employ/report}" class="list-group-item list-group-item-action py-2 ripple"><i
                             class="fas fa-calendar-times fa-fw me-3"></i><span>Thống kê</span>
                         </a>
-                        <a href="#" class="list-group-item list-group-item-action py-2 ripple">
+                        <a th:href="@{/employ/infor}" class="list-group-item list-group-item-action py-2 ripple">
                             <i class="fas fa-file-contract fa-fw me-3"></i><span>Xem hợp đồng</span>
                         </a>
                         <a href="#" class="list-group-item list-group-item-action py-2 ripple">
@@ -113,7 +113,7 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle hidden-arrow d-flex align-items-center" href="#"
                            id="navbarDropdownMenuLink" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
-                            <img src="https://mdbootstrap.com/img/Photos/Avatars/img (31).jpg" class="rounded-circle" height="30"
+                            <img th:src="@{/img/user/male.png}"  class="rounded-circle" height="30"
                                  alt="" loading="lazy" />
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">

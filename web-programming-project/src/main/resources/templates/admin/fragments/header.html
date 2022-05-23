@@ -112,12 +112,12 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle hidden-arrow d-flex align-items-center" href="#"
                            id="navbarDropdownMenuLink" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
-                            <img src="https://mdbootstrap.com/img/Photos/Avatars/img (31).jpg" class="rounded-circle" height="30"
+                            <img th:src="@{/img/user/male.png}"  class="rounded-circle" height="30"
                                  alt="" loading="lazy" />
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
                             <li><a class="dropdown-item" href="#"><i class="fas fa-portrait fa-fw me-3"></i><strong sec:authentication="name"></strong></a></li>
-                            <li><a class="dropdown-item" href="#"><i class="fas fa-book-open fa-fw me-3"></i>Thông tin cá nhân</a></li>
+                            <li><a class="dropdown-item" th:href="@{/admin/infor}"><i class="fas fa-book-open fa-fw me-3"></i>Thông tin cá nhân</a></li>
                             <li><a class="dropdown-item" th:href="@{/admin/update_password}"><i class="fas fa-edit fa-fw me-3"></i>Thay đổi mật khẩu</a></li>
                             <li><a class="dropdown-item" th:href="@{/logout}"><i class="fas fa-sign-out-alt fa-fw me-3"></i>Đăng xuất</a></li>
                         </ul>

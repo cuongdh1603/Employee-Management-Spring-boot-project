@@ -25,12 +25,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.demo.model.Account;
 import com.example.demo.model.Department;
 import com.example.demo.model.Employee;
 import com.example.demo.model.Position;
 import com.example.demo.service.DepartmentService;
 import com.example.demo.service.EmployeeService;
 import com.example.demo.service.PositionService;
+import com.example.demo.service.UserService;
 
 import lombok.extern.log4j.Log4j2;
 @Log4j2
@@ -44,6 +46,8 @@ public class DepartmentController {
 	private EmployeeService employeeService;
 	@Autowired
 	private PositionService positionService;
+	@Autowired
+	private UserService userService;
 	@GetMapping()
 	public String departments(Model model) {
 		model.addAttribute("departments", departmentService.getAllDepartment());
@@ -194,9 +198,52 @@ public class DepartmentController {
 	@GetMapping("/delete/{id}")
 	public String deleteEmployee(Model model,@PathVariable("id") Integer id) {
 		Employee employee = employeeService.getEmployeeById(id);
+		//If field photo of chosen object is not null, it means that the directory contains image of that object has been already exist.
+		
 		id = employee.getDepartment().getId();
 		employeeService.inactiveEmployee(employee);
 		return "redirect:/depart/employees/{id}";
+	}
+	@GetMapping("/account/{id}")
+	public String newAccount(Model model, @PathVariable("id") Integer id) {
+		Employee employee = employeeService.getEmployeeById(id);
+		Account account = new Account();
+		model.addAttribute("employee", employee);
+		model.addAttribute("account", account);
+		return "admin/new_account";
+	}
+	@PostMapping("/save_account/{id}")
+	public String saveAccount(Model model,
+			@PathVariable("id") Integer id,
+			@Valid @ModelAttribute("account") Account newAccount,
+			BindingResult result,
+			@RequestParam("reNewpass") String rePassword
+			) {
+		Employee employee = employeeService.getEmployeeById(id);
+		if (result.hasErrors()){
+			log.info("Error data");
+			model.addAttribute("employee", employee);
+			model.addAttribute("account",newAccount);
+            return "admin/new_account";
+        }
+		Account account = userService.findAccountByUsernameNotId(newAccount.getUsername(), id);
+		if(account!=null) {
+			model.addAttribute("employee", employee);
+			model.addAttribute("account", newAccount);
+			model.addAttribute("errorUsername", "Tên người dùng này đã tồn tại. Yêu cầu nhập tên khác");
+			return "admin/new_account";
+		}
+		if(!rePassword.trim().equals(newAccount.getPassword().trim())) {
+			model.addAttribute("employee", employee);
+			model.addAttribute("account", newAccount);
+			model.addAttribute("errorRePassword", "Mật khẩu không khớp");
+			return "admin/new_account";
+		}
+		employeeService.updateAccountToEmployee(employee, newAccount);
+		id = employee.getDepartment().getId();
+		log.info("Url: "+"redirect:/depart/employees/{"+id+"}");
+		String url = "redirect:/depart/employees/"+id+"";	
+		return url;
 	}
 	//delete all file in a directory
 	public static void deleteFiles(File dirPath) {

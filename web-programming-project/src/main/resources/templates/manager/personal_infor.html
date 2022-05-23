@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head> 
+	<div th:replace="manager/fragments/header :: html_head"/>        
+    <title>Material Design for Bootstrap</title>       
+</head>
+<body>   
+    <div th:replace="manager/fragments/header :: header"/>  
+    <!--Main Navigation-->
+        <!--Main layout-->
+        <main style="margin-top: 58px">
+        	<section style="background-color: #eee;">
+	            <div class="container py-3 mb-5">
+	                <div class="row text-center">
+	                    <h1>THÔNG TIN CÁ NHÂN</h1>
+	                </div>
+	                <div class="row">
+	                    <div class="col-lg-4">
+	                        <div class="card mb-4">
+	                            <div class="card-body text-center">
+	                                <img th:if="${employee.photo}" th:src="@{${employee.getPhotoPath()}}"
+	                                    alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
+	                                <img th:if="${employee.photo} == null and ${employee.gender} == 0" th:src="@{/img/user/male.png}" 
+	                                    alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
+	                                <img th:if="${employee.photo} == null and ${employee.gender} == 1" th:src="@{/img/user/female.png}" 
+	                                    alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
+	                                <h5 class="my-3" th:text="${employee.firstname + ' ' + employee.lastname}"></h5>
+	                                <p class="text-muted mb-2" th:text="${employee.department.name}"></p>
+	                                <p class="text-muted mb-2" >Chức vụ : <span th:text="${employee.position.name}"></span></p> 
+	                                <p class="text-muted mb-2">Mã NV : <span th:text="${employee.code}"></span ></p>
+	                                <div class="d-flex justify-content-center mb-2">
+	                                    <a type="button" th:href="@{/manager}" class="btn btn-primary">Quay lại</a>
+	                                    
+	                                </div>
+	                            </div>
+	                        </div>
+	                        <div class="card mb-4 mb-lg-0">
+	                            <div class="card-body p-0">
+	                                <ul class="list-group list-group-flush rounded-3">
+	                                    <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+	                                        <i class="fab fa-github fa-lg" style="color: #333333;"></i>
+	                                        <p class="mb-0">mdbootstrap</p>
+	                                    </li>
+	                                    <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+	                                        <i class="fab fa-linkedin fa-lg" style="color: #55acee;"></i>
+	                                        <p class="mb-0">@mdbootstrap</p>
+	                                    </li>
+	                                   
+	                                    <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+	                                        <i class="fab fa-facebook-f fa-lg" style="color: #3b5998;"></i>
+	                                        <p class="mb-0">mdbootstrap</p>
+	                                    </li>
+	                                </ul>
+	                            </div>
+	                        </div>
+	                    </div>
+	                    <div class="col-lg-8">
+	                        <div class="card mb-4">
+	                            <div class="card-body">
+	                                <div class="row">
+	                                    <div class="col-sm-3">
+	                                        <p class="mb-0">Họ tên</p>
+	                                    </div>
+	                                    <div class="col-sm-9">
+	                                        <p class="text-muted mb-0" th:text="${employee.firstname + ' ' + employee.lastname}"></p>
+	                                    </div>
+	                                </div>
+	                                <hr>
+	                                <div class="row">
+	                                    <div class="col-sm-3">
+	                                        <p class="mb-0">Giới tính</p>
+	                                    </div>
+	                                    <div class="col-sm-9">
+	                                    	<p class="text-muted mb-0" th:if="${employee.gender} == 0" th:text="Nam"></p>
+	                                        <p class="text-muted mb-0" th:if="${employee.gender} == 1" th:text="Nữ"></p>
+	                                    </div>
+	                                </div>
+	                                <hr>
+	                                <div class="row">
+	                                    <div class="col-sm-3">
+	                                        <p class="mb-0" >Ngày sinh</p>
+	                                    </div>
+	                                    <div class="col-sm-9">
+	                                        <p class="text-muted mb-0" th:text="${#dates.format(employee.dob,'dd/MM/yyyy')}"></p>
+	                                    </div>
+	                                </div>
+	                                <hr>
+	                                <div class="row">
+	                                    <div class="col-sm-3">
+	                                        <p class="mb-0">Email</p>
+	                                    </div>
+	                                    <div class="col-sm-9">
+	                                        <p class="text-muted mb-0" th:text="${employee.email}"></p>
+	                                    </div>
+	                                </div>
+	                                <hr>
+	                                <div class="row">
+	                                    <div class="col-sm-3">
+	                                        <p class="mb-0">Số điện thoại</p>
+	                                    </div>
+	                                    <div class="col-sm-9">
+	                                        <p class="text-muted mb-0" th:text="${employee.phoneNumber}"></p>
+	                                    </div>
+	                                </div>
+	                                <hr>
+	                                <div class="row">
+	                                    <div class="col-sm-3">
+	                                        <p class="mb-0">Mô tả</p>
+	                                    </div>
+	                                    <div class="col-sm-9">
+	                                        <p class="text-muted mb-0" th:text="${employee.description}"></p>
+	                                    </div>
+	                                </div>
+	                            </div>
+	                        </div>
+	                        <div class="row">
+	                            <div class="col-md">
+	                                <div class="card mb-4 mb-md-0">
+	                                    <div class="card-body">
+	                                        <p class="mb-3 fw-bold">
+	                                            Thông tin tuyển dụng
+	                                        </p>
+	                                        <div class="row">
+	                                            <div class="col-sm-3">
+	                                                <p class="mb-0">Lương hiện tại</p>
+	                                            </div>
+	                                            <div class="col-sm-9">
+	                                                <p class="text-muted mb-0" th:text="${employee.getFormatWage()+' VNĐ'}"></p>
+	                                            </div>
+	                                        </div>
+	                                        <hr>
+	                                        <div class="row">
+	                                            <div class="col-sm-3">
+	                                                <p class="mb-0">Lương khởi điểm</p>
+	                                            </div>
+	                                            <div class="col-sm-9">
+	                                                <p class="text-muted mb-0" th:text="${employee.getFormatStartingWage()+' VNĐ'}"></p>
+	                                            </div>
+	                                        </div>
+	                                        <hr>
+	                                        <div class="row">
+	                                            <div class="col-sm-3">
+	                                                <p class="mb-0">Thời gian bắt đầu</p>
+	                                            </div>
+	                                            <div class="col-sm-9">
+	                                                <p class="text-muted mb-0" th:text="${#dates.format(employee.dateStart,'dd/MM/yyyy')}"></p>
+	                                            </div>
+	                                        </div>
+	                                    </div>
+	                                </div>
+	                            </div>
+	                        </div>
+	                    </div>
+	                </div>
+	            </div>
+        	</section>
+        </main>
+        <!--Main layout-->
+        <!-- MDB -->
+    <div th:replace="manager/fragments/footer :: footer"/>
+    <script type="text/javascript" th:src="@{/js/mdb.min.js}"></script>  
+    <!-- Custom scripts -->
+    <script type="text/javascript" th:src="@{/js/admin.js}"></script>   
+    </body>
+</html>

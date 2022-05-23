@@ -54,9 +54,12 @@ public class EmployeeController {
 	}
 	@GetMapping("/report")
 	public String currentReport(Model model) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
+		Employee employee = employeeService.getEmployeeByUsername(userDetails.getUsername());
 		LocalDate currentDate = LocalDate.now();
 		model.addAttribute("currentDate", currentDate);
-		List<TimeKeeping> timeKeepings = timeKeepingService.getTimeKeepingsByMonthAndYear(currentDate.getMonthValue(), currentDate.getYear(), 1);//value 1 set default to test a employee
+		List<TimeKeeping> timeKeepings = timeKeepingService.getTimeKeepingsByMonthAndYear(currentDate.getMonthValue(), currentDate.getYear(), employee.getId());//value 1 set default to test a employee
 		if(timeKeepings.isEmpty()) {
 			model.addAttribute("work", "Không có dữ liệu");
 			model.addAttribute("rest", "Không có dữ liệu");
@@ -75,11 +78,13 @@ public class EmployeeController {
 	@PostMapping("/show_report")
 	public String showReport(Model model,
 			@RequestParam("datepicker") String strDate) {
-		log.info("StrDate: "+strDate);
-		//Date searchDate = new Date();
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
+		Employee employee = employeeService.getEmployeeByUsername(userDetails.getUsername());
+		log.info("StrDate: "+strDate+" ID Employee: " + employee.getId());
 		if(!checkValidStringTime(strDate)) {
 			LocalDate currentDate = LocalDate.now();
-			List<TimeKeeping> timeKeepings = timeKeepingService.getTimeKeepingsByMonthAndYear(currentDate.getMonthValue(), currentDate.getYear(), 3);//value 3 set default to test an employee
+			List<TimeKeeping> timeKeepings = timeKeepingService.getTimeKeepingsByMonthAndYear(currentDate.getMonthValue(), currentDate.getYear(), employee.getId());//value 3 set default to test an employee
 			model.addAttribute("errorTimeInput", "Định dạng thời gian không phù hợp (MM-yyyy). Hãy nhập lại");
 			model.addAttribute("timeKeepings", timeKeepings);
 			model.addAttribute("currentDate", currentDate);
@@ -98,7 +103,7 @@ public class EmployeeController {
 		}
 		else {
 			LocalDate date = getFormatDate(strDate);
-			List<TimeKeeping> timeKeepings = timeKeepingService.getTimeKeepingsByMonthAndYear(date.getMonthValue(), date.getYear(), 1);//value 1 set default to test an employee
+			List<TimeKeeping> timeKeepings = timeKeepingService.getTimeKeepingsByMonthAndYear(date.getMonthValue(), date.getYear(), employee.getId());//value 1 set default to test an employee
 			model.addAttribute("timeKeepings", timeKeepings);
 			model.addAttribute("currentDate", date);
 			if(timeKeepings.isEmpty()) {
@@ -120,6 +125,14 @@ public class EmployeeController {
 	public String updatePassword() {
 		log.info("Password update employee");
 		return "employee/change_password";
+	}
+	@GetMapping("/infor")
+	public String personalInfor(Model model) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
+		Employee employee = employeeService.getEmployeeByUsername(userDetails.getUsername());
+		model.addAttribute("employee", employee);
+		return "employee/personal_infor";
 	}
 	@GetMapping("/accessDenied")
 	public String accessDenied() {

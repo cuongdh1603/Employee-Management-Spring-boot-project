@@ -9,6 +9,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 /*
 account_id
 account_username
@@ -24,8 +26,12 @@ public class Account {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	@Column(name = "account_username")
+	@NotBlank(message = "Không được để trống")
+	@Size(min=5,max=15,message = "Độ dài tên đăng nhập tối thiếu từ 5 kí tự trở lên")
 	private String username;
 	@Column(name = "account_password")
+	@NotBlank(message = "Không được để trống")
+	@Size(min=6,message = "Yêu cầu mật khẩu từ 6 kí tự trở lên")
 	private String password;
 	@Column(name = "account_active")
 	private Integer isActive;

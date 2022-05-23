@@ -7,6 +7,9 @@ import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -117,6 +120,14 @@ public class AdminController {
 	@GetMapping("/accessDenied")
 	public String accessDenied() {
 		return "admin/accessDenied";
+	}
+	@GetMapping("/infor")
+	public String personalInfor(Model model) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
+		Employee employee = employeeService.getEmployeeByUsername(userDetails.getUsername());
+		model.addAttribute("employee", employee);
+		return "admin/personal_infor";
 	}
 	public Long extractNumberFromString(String s) {
 		Pattern pattern = Pattern.compile("[^0-9]");

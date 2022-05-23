@@ -63,7 +63,10 @@ public class ManagerController {
 	}
 	@GetMapping("/wage")
 	public String salary(Model model) {
-		List<Employee> employees = employeeService.getEmployeesToManagerByDepartmentId(1);
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
+		Employee employee = employeeService.getEmployeeByUsername(userDetails.getUsername());
+		List<Employee> employees = employeeService.getEmployeesToManagerByDepartmentId(employee.getDepartment().getId());
 		model.addAttribute("employees", employees);
 		return "manager/update_wage";
 	}
@@ -88,9 +91,13 @@ public class ManagerController {
 	}
 	@GetMapping("/timekeeping")
 	public String timekeeping(Model model) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
+		Employee employee = employeeService.getEmployeeByUsername(userDetails.getUsername());
+		
 		Date date = new Date();
 		model.addAttribute("currentDate", date);
-		List<Employee> employees = employeeService.getEmployeesToManagerByDepartmentId(1);
+		List<Employee> employees = employeeService.getEmployeesToManagerByDepartmentId(employee.getDepartment().getId());
 		TimeKeepingDto timeKeepingDto = new TimeKeepingDto();
 		for (Employee e : employees) {
 			if(!wageService.checkWageExisted(e)) {
@@ -122,10 +129,13 @@ public class ManagerController {
 	}
 	@GetMapping("/report")
 	public String currentReport(Model model) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
+		Employee employee = employeeService.getEmployeeByUsername(userDetails.getUsername());
+		
 		LocalDate currentDate = LocalDate.now();
-		//Date date = new Date();
 		model.addAttribute("currentDate", currentDate);
-		List<TimeKeeping> timeKeepings = timeKeepingService.getTimeKeepingsByMonthAndYear(currentDate.getMonthValue(), currentDate.getYear(), 3);//value 3 set default to test a manager
+		List<TimeKeeping> timeKeepings = timeKeepingService.getTimeKeepingsByMonthAndYear(currentDate.getMonthValue(), currentDate.getYear(), employee.getId());//value 3 set default to test a manager
 		if(timeKeepings.isEmpty()) {
 			model.addAttribute("work", "Không có dữ liệu");
 			model.addAttribute("rest", "Không có dữ liệu");
@@ -145,10 +155,13 @@ public class ManagerController {
 	public String showReport(Model model,
 			@RequestParam("datepicker") String strDate) {
 		log.info("StrDate: "+strDate);
-		//Date searchDate = new Date();
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
+		Employee employee = employeeService.getEmployeeByUsername(userDetails.getUsername());
+
 		if(!checkValidStringTime(strDate)) {
 			LocalDate currentDate = LocalDate.now();
-			List<TimeKeeping> timeKeepings = timeKeepingService.getTimeKeepingsByMonthAndYear(currentDate.getMonthValue(), currentDate.getYear(), 3);//value 3 set default to test a manager
+			List<TimeKeeping> timeKeepings = timeKeepingService.getTimeKeepingsByMonthAndYear(currentDate.getMonthValue(), currentDate.getYear(), employee.getId());//value 3 set default to test a manager
 			model.addAttribute("errorTimeInput", "Định dạng thời gian không phù hợp (MM-yyyy). Hãy nhập lại");
 			model.addAttribute("timeKeepings", timeKeepings);
 			model.addAttribute("currentDate", currentDate);
@@ -167,7 +180,7 @@ public class ManagerController {
 		}
 		else {
 			LocalDate date = getFormatDate(strDate);
-			List<TimeKeeping> timeKeepings = timeKeepingService.getTimeKeepingsByMonthAndYear(date.getMonthValue(), date.getYear(), 3);//value 3 set default to test a manager
+			List<TimeKeeping> timeKeepings = timeKeepingService.getTimeKeepingsByMonthAndYear(date.getMonthValue(), date.getYear(), employee.getId());//value 3 set default to test a manager
 			model.addAttribute("timeKeepings", timeKeepings);
 			model.addAttribute("currentDate", date);
 			if(timeKeepings.isEmpty()) {
@@ -189,6 +202,14 @@ public class ManagerController {
 	public String updatePassword() {
 		log.info("Password update manager");
 		return "manager/change_password";
+	}
+	@GetMapping("/infor")
+	public String personalInfor(Model model) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
+		Employee employee = employeeService.getEmployeeByUsername(userDetails.getUsername());
+		model.addAttribute("employee", employee);
+		return "manager/personal_infor";
 	}
 	@GetMapping("/accessDenied")
 	public String accessDenied() {
