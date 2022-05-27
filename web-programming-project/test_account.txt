@@ -5,13 +5,23 @@ docuong
 
 
 Test MANAGER:
-vanduy
-7654322
+
 
 quanghuy
 1111111
 
+kieutrinh
+1111111
+
+dinhtruong
+1111111
 
 Test EMPLOYEE:
 duyenhung
 bbbbbbb
+
+dinhhoa
+dinhhoa
+
+minhchau
+minhchau12

@@ -19,7 +19,7 @@ public class MyErrorController implements ErrorController{
 				return "404";
 			}
 			else if(statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
-				return "505";
+				return "500";
 			}
 		}
 		return "404";//suggest creating another view for other errors.

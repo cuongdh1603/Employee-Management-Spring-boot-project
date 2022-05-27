@@ -51,7 +51,7 @@ public class Employee {
 	
 	@Column(name = "employee_email")
 	@NotBlank(message = "Không được để trống")
-	@Pattern(regexp ="^[A-Za-z0-9+_.-]+@(.+)$",message="Email không hợp lệ")
+	@Pattern(regexp ="^[a-z0-9](\\.?[a-z0-9]){5,}@g(oogle)?mail\\.com$",message="Email không hợp lệ")
 	private String email;
 	
 	@Column(name = "employee_phonenumber")

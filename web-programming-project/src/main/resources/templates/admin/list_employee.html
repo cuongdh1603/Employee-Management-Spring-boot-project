@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head> 
-	<div th:replace="admin/fragments/header :: html_head"/>        
-    <title>Material Design for Bootstrap</title>       
+	<div th:replace="admin/fragments/header :: html_head"/>  
+	    
+    <title>Danh sách nhân viên</title>       
     <script type="text/javascript" th:src="@{/js/bootstrap.bundle.min.js}"></script>
 </head>
 <body>   
@@ -68,7 +69,7 @@
                                 								this.getAttribute('data-department'),
                                 								this.getAttribute('data-position')
                                 								)"
-                                ><i class=" fas fa-info-circle"></i></a>
+                                href="#"><i class=" fas fa-info-circle"></i></a>
                                 
                                 <a type="button" th:href="@{/depart/update_emp/{id}(id=${em.id})}" class="btn btn-warning"><i class=" fas fa-edit"></i></a>
                                 <button type="button" class="btn btn-danger" 
@@ -106,8 +107,8 @@
             <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Nhân viên <strong id="name"></strong> (<strong id="code"></strong>)</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	                <h5 class="modal-title">Nhân viên <strong id="name"></strong> (<strong id="code"></strong>)</h5>
+	                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="container-fluid">

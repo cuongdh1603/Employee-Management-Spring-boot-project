@@ -87,7 +87,13 @@ public class EmployeeService {
 	public void inactiveEmployee(Employee employee) {
 		if(employee != null) {
 			employee.setIsActive(0);
+			employee.setPhoto(null);//delete name's picture of this employee 
 			employeeRepository.save(employee);
+		}
+		if(employee.getAccount() != null) {
+			Account account = employee.getAccount();
+			account.setIsActive(0);
+			accountRepository.save(account);
 		}
 	}
 	public List<Employee> getEmployeesToManagerByDepartmentId(Integer id){

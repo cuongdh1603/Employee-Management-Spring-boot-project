@@ -14,7 +14,7 @@ public class DepartmentService {
 	@Autowired
 	private DepartmentRepository departmentRepository;
 	public List<Department> getAllDepartment(){
-		return departmentRepository.findAll();
+		return departmentRepository.findOtherDepartments(6);
 	}
 	public Department getDepartmentById(Integer id) {
 		Optional<Department> options = departmentRepository.findById(id);

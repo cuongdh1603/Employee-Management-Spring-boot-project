@@ -199,10 +199,20 @@ public class DepartmentController {
 	public String deleteEmployee(Model model,@PathVariable("id") Integer id) {
 		Employee employee = employeeService.getEmployeeById(id);
 		//If field photo of chosen object is not null, it means that the directory contains image of that object has been already exist.
-		
+		if(employee.getPhoto() != null) {
+			String uploadDir = "./src/main/resources/static/img/user/" + employee.getCode();
+			Path uploadPath = Paths.get(uploadDir);
+			if(Files.exists(uploadPath)) {
+				File file = new File(uploadDir);
+				deleteDirectory(file);
+				file.delete();
+			}
+		}
 		id = employee.getDepartment().getId();
 		employeeService.inactiveEmployee(employee);
-		return "redirect:/depart/employees/{id}";
+		log.info("Url: "+"redirect:/depart/employees/{"+id+"}");
+		String url = "redirect:/depart/employees/"+id+"";	
+		return url;
 	}
 	@GetMapping("/account/{id}")
 	public String newAccount(Model model, @PathVariable("id") Integer id) {

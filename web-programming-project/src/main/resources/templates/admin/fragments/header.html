@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
-<header>
+<header lang="en"> 
 	<div th:fragment="html_head">
 		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta http-equiv="x-ua-compatible" content="ie=edge" />
+		<link  rel="icon" type="image/icon type" th:href="@{/img/mdb-favicon.ico}">
 	    <!-- Font Awesome -->
 	    <link rel="stylesheet" th:href="@{https://use.fontawesome.com/releases/v5.11.2/css/all.css}" />
 	    <!-- Google Fonts Roboto -->
@@ -19,7 +22,7 @@
 	    <script type="text/javascript" th:src="@{/js/jquery.dataTables.min.js}"></script>
 	    <script type="text/javascript" th:src="@{/js/dataTables.bootstrap4.min.js}"></script>
 	</div>
-</header>
+</header >
 <body>
 <!--Main Navigation-->
     <header th:fragment="header">

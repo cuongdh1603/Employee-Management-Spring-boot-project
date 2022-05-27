@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head> 
 	<div th:replace="manager/fragments/header :: html_head"/>        
-    <title>Material Design for Bootstrap</title>       
+    <title>Danh sách nhân viên</title>       
     <script type="text/javascript" th:src="@{/js/bootstrap.bundle.min.js}"></script>
 </head>
 <body>   
@@ -36,7 +36,11 @@
                             <td th:text = "${iterStat.count}"></td>
                             <td th:text="${em.code}"></td>
                             <td th:text="${em.firstname + ' ' + em.lastname}"></td>
-                            <td></td>
+                            <td>
+                            	<img th:if="${em.photo}" th:src="@{${em.getPhotoPath()}}" width="100px" height="50px">
+                				<img th:if="${em.photo} == null and ${em.gender} == 0" th:src="@{/img/user/male.png}" width="100px" height="50px">
+                				<img th:if="${em.photo} == null and ${em.gender} == 1" th:src="@{/img/user/female.png}" width="100px" height="50px">
+                            </td>
                             <td th:text="${#dates.format(em.dob,'dd/MM/yyyy')}"></td>
                             <td th:text="${em.position.name}"></td>
                             <td>
@@ -44,6 +48,7 @@
                                 	th:data-name="${em.firstname+' '+em.lastname}"
                                 	th:data-code="${em.code}"
                                 	th:data-gender="${em.gender}"
+                                	th:data-image="${em.getPhotoPath()}"
                                 	th:data-email="${em.email}"
                                 	th:data-phone="${em.phoneNumber}"
                                 	th:data-dob="${#dates.format(em.dob,'dd/MM/yyyy')}"
@@ -57,6 +62,7 @@
                                 	onclick="showDetailEmployee(this.getAttribute('data-name'),
                                 								this.getAttribute('data-code'),
                                 								this.getAttribute('data-gender'),
+                                								this.getAttribute('data-image'),
                                 								this.getAttribute('data-email'),
                                 								this.getAttribute('data-phone'),
                                 								this.getAttribute('data-dob'),
@@ -134,7 +140,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-4">                               
+                            <div class="col-4">   
+                            	<img id="image" class="img-fluid w-100">                            
                             </div>
                         </div>
                         <div class="row">
@@ -213,7 +220,7 @@
     <!-- Custom scripts -->
     <script type="text/javascript" th:src="@{/js/admin.js}"></script>
     <script>
-    	function showDetailEmployee(name,code,gender,email,phone,dob,dateStart,address,description,wage,startingWage,department,position){
+    	function showDetailEmployee(name,code,gender,image,email,phone,dob,dateStart,address,description,wage,startingWage,department,position){
 			$('#name').text(name);
 		    $('#code').text(code);
 		    if(gender=='0'){
@@ -232,6 +239,14 @@
 		    $('#description').text(description);
 		    $('#department').text(department);
 		    $('#position').text(position);
+		    
+		    var src = image;
+		    if(image==null&&gender=='0') src="/img/user/male.png";
+		    else if(image==null&&gender=='1') src="/img/user/female.png";
+	        var preview = document.getElementById("image");
+	        preview.src = src;
+	        preview.style.display = "block";
+	        
 		    $('#inforEmploy').modal('show');
 		}
         $(document).ready(function() {
@@ -240,8 +255,7 @@
               { orderable: false, targets: 0 }, //disable ordering.
               { orderable: false, targets: 3 },
               { orderable: false, targets: 5 },
-              { orderable: false, targets: 6 },
-              { orderable: false, targets: 7 }  
+              { orderable: false, targets: 6 } 
             ]
           })
       	} );

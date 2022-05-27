@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<head xmlns:th="http://www.thymeleaf.org">  
+<html xmlns:th="http://www.thymeleaf.org">
+<head >  
+	<link rel="shortcut icon" th:href="@{/img/logo-mdb-jquery-small.webp}" type="icon">
     <link th:href="@{/css/500.css}" rel="stylesheet" type="text/css"/>
     <link th:href="@{https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@600;900&display=swap}" rel="stylesheet">
     <script th:src="@{https://kit.fontawesome.com/4b9ba14b0f.js}" crossorigin="anonymous"></script>
@@ -12,7 +14,13 @@
     <div class="msg">
         ERROR PAGE<p>INTERNAL SERVER ERROR</p>
         <p>
-            <a href="#">GO HOME</a><br> 
+            <a sec:authorize="hasAnyAuthority('ROLE_AD')" th:href="@{/admin}" class="more-link">GO HOME</a><br> 
+        </p>
+        <p>
+            <a sec:authorize="hasAnyAuthority('ROLE_MA')" th:href="@{/manager}" class="more-link">GO HOME</a><br> 
+        </p>
+        <p>
+            <a sec:authorize="hasAnyAuthority('ROLE_EM')" th:href="@{/employ}" class="more-link">GO HOME</a><br> 
         </p>
     </div>
   </div>
